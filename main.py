@@ -8,6 +8,10 @@ CLOCK_FREQUENCY = 1
 TILES_SIZE = 20
 TILES_COLOR = (0, 0, 0)
 
+SNAKE_COLOR = (0, 255, 0)
+
+snake_position = [(10, 5), (10, 6), (10, 7)]
+
 
 def display_checkerboard():
     k, l = int(SCREEN_HEIGHT / TILES_SIZE), int(SCREEN_WIDTH / TILES_SIZE)
@@ -18,6 +22,13 @@ def display_checkerboard():
                     j * TILES_SIZE, i * TILES_SIZE, TILES_SIZE, TILES_SIZE
                 )
                 pygame.draw.rect(screen, TILES_COLOR, rect)
+
+
+def draw_snake(snake_position):
+    for i, j in snake_position:
+        x, y = i * TILES_SIZE, j * TILES_SIZE
+        rect = pygame.Rect(y, x, TILES_SIZE, TILES_SIZE)
+        pygame.draw.rect(screen, SNAKE_COLOR, rect)
 
 
 status = 1  # 1 when running, 0 to stop
@@ -42,6 +53,7 @@ while status:
 
     screen.fill(SCREEN_COLOR)
     display_checkerboard()
+    draw_snake(snake_position)
     pygame.display.update()
 
 print(f"{status=}")
