@@ -5,6 +5,8 @@ SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 300
 CLOCK_FREQUENCY = 1
 
+status = 1  # 1 when running, 0 to stop
+
 pygame.init()
 
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -13,12 +15,18 @@ clock = pygame.time.Clock()
 
 pygame.display.set_caption("Snake")
 
-while True:
+while status:
     clock.tick(CLOCK_FREQUENCY)
 
     for event in pygame.event.get():
-        pass
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_q:
+                status = 0
+        if event.type == pygame.QUIT:
+            status = 0
 
     screen.fill(SCREEN_COLOR)
 
     pygame.display.update()
+
+print(f"{status=}")
