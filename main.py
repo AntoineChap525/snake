@@ -10,33 +10,44 @@ TILES_COLOR = (0, 0, 0)
 
 SNAKE_COLOR = (0, 255, 0)
 
-snake_position = [(10, 5), (10, 6), (10, 7)]
+
+class Game:
+    def __init__(self):
+        self.snake = Snake()
+
+    def display_checkerboard(self):
+        screen.fill(SCREEN_COLOR)
+        k, l = int(SCREEN_HEIGHT / TILES_SIZE), int(SCREEN_WIDTH / TILES_SIZE)
+        for i in range(k):
+            for j in range(l):
+                if (i + j) % 2 == 1:
+                    rect = pygame.Rect(
+                        j * TILES_SIZE, i * TILES_SIZE, TILES_SIZE, TILES_SIZE
+                    )
+                    pygame.draw.rect(screen, TILES_COLOR, rect)
+
+    def update_snake(self):
+        self.snake.position.append(
+            (
+                self.snake.position[-1][0] + direction[0],
+                self.snake.position[-1][1] + direction[1],
+            )
+        )
+        self.snake.position.pop(0)
+
+    def display_snake(self):
+        for i, j in self.snake.position:
+            x, y = i * TILES_SIZE, j * TILES_SIZE
+            rect = pygame.Rect(y, x, TILES_SIZE, TILES_SIZE)
+            pygame.draw.rect(screen, SNAKE_COLOR, rect)
 
 
-def display_checkerboard():
-    screen.fill(SCREEN_COLOR)
-    k, l = int(SCREEN_HEIGHT / TILES_SIZE), int(SCREEN_WIDTH / TILES_SIZE)
-    for i in range(k):
-        for j in range(l):
-            if (i + j) % 2 == 1:
-                rect = pygame.Rect(
-                    j * TILES_SIZE, i * TILES_SIZE, TILES_SIZE, TILES_SIZE
-                )
-                pygame.draw.rect(screen, TILES_COLOR, rect)
+class Snake:
+    def __init__(self):
+        self.position = [(10, 5), (10, 6), (10, 7)]
 
 
-def draw_snake():
-    for i, j in snake_position:
-        x, y = i * TILES_SIZE, j * TILES_SIZE
-        rect = pygame.Rect(y, x, TILES_SIZE, TILES_SIZE)
-        pygame.draw.rect(screen, SNAKE_COLOR, rect)
-
-
-def change_snake_position():
-    snake_position.append(
-        (snake_position[-1][0] + direction[0], snake_position[-1][1] + direction[1])
-    )
-    snake_position.pop(0)
+game = Game()
 
 
 status = 1  # 1 when running, 0 to stop
@@ -71,10 +82,9 @@ while status:
         if event.type == pygame.QUIT:  # quit the game
             status = 0
 
-    display_checkerboard()
-    change_snake_position()
-    draw_snake()
-
+    game.display_checkerboard()
+    game.update_snake()
+    game.display_snake()
     pygame.display.update()
 
 print(f"{status=}")
