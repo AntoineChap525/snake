@@ -1,19 +1,23 @@
 import pygame
+import random
 
 SCREEN_COLOR = (255, 255, 255)
 SCREEN_WIDTH = 400
 SCREEN_HEIGHT = 300
-CLOCK_FREQUENCY = 1
+CLOCK_FREQUENCY = 5
 
 TILES_SIZE = 20
 TILES_COLOR = (0, 0, 0)
 
 SNAKE_COLOR = (0, 255, 0)
 
+FRUIT_COLOR = (255, 0, 0)
+
 
 class Game:
     def __init__(self):
         self.snake = Snake()
+        self.fruit = Fruit()
 
     def display_checkerboard(self):
         screen.fill(SCREEN_COLOR)
@@ -26,25 +30,54 @@ class Game:
                     )
                     pygame.draw.rect(screen, TILES_COLOR, rect)
 
-    def update_snake(self):
-        self.snake.position.append(
-            (
-                self.snake.position[-1][0] + direction[0],
-                self.snake.position[-1][1] + direction[1],
-            )
-        )
-        self.snake.position.pop(0)
+    def check_fruit_collision(self):
+        if self.fruit.position == self.snake.position[-1]:
+            self.fruit = Fruit()
+            self.snake.position.insert(0, self.snake.queue)
 
-    def display_snake(self):
-        for i, j in self.snake.position:
-            x, y = i * TILES_SIZE, j * TILES_SIZE
-            rect = pygame.Rect(y, x, TILES_SIZE, TILES_SIZE)
-            pygame.draw.rect(screen, SNAKE_COLOR, rect)
+    def update(self):
+        self.snake.update()
+        self.check_fruit_collision()
+
+    def display(self):
+        self.display_checkerboard()
+        self.fruit.display()
+        self.snake.display()
 
 
 class Snake:
     def __init__(self):
         self.position = [(10, 5), (10, 6), (10, 7)]
+        self.queue = self.position[0]
+
+    def update(self):
+        self.queue = self.position[0]
+        self.position.append(
+            (
+                self.position[-1][0] + direction[0],
+                self.position[-1][1] + direction[1],
+            )
+        )
+        self.position.pop(0)
+
+    def display(self):
+        for i, j in self.position:
+            x, y = i * TILES_SIZE, j * TILES_SIZE
+            rect = pygame.Rect(y, x, TILES_SIZE, TILES_SIZE)
+            pygame.draw.rect(screen, SNAKE_COLOR, rect)
+
+
+class Fruit:
+    def __init__(self):
+        i = random.randint(1, SCREEN_HEIGHT / TILES_SIZE)
+        j = random.randint(1, SCREEN_WIDTH / TILES_SIZE)
+        self.position = (i, j)
+
+    def display(self):
+        i, j = self.position
+        x, y = i * TILES_SIZE, j * TILES_SIZE
+        rect = pygame.Rect(y, x, TILES_SIZE, TILES_SIZE)
+        pygame.draw.rect(screen, FRUIT_COLOR, rect)
 
 
 game = Game()
@@ -82,9 +115,8 @@ while status:
         if event.type == pygame.QUIT:  # quit the game
             status = 0
 
-    game.display_checkerboard()
-    game.update_snake()
-    game.display_snake()
+    game.update()
+    game.display()
     pygame.display.update()
 
 print(f"{status=}")
