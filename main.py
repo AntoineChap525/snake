@@ -6,6 +6,8 @@ screen = pygame.display.set_mode((400, 300))
 
 clock = pygame.time.Clock()
 
+pygame.display.set_caption("Snake")
+
 while True:
     clock.tick(1)
 
