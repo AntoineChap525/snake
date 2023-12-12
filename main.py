@@ -69,8 +69,8 @@ class Snake:
 
 class Fruit:
     def __init__(self):
-        i = random.randint(1, SCREEN_HEIGHT / TILES_SIZE)
-        j = random.randint(1, SCREEN_WIDTH / TILES_SIZE)
+        i = random.randint(0, int(SCREEN_HEIGHT / TILES_SIZE) - 1)
+        j = random.randint(0, int(SCREEN_WIDTH / TILES_SIZE) - 1)
         self.position = (i, j)
 
     def display(self):
