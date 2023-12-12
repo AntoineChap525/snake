@@ -20,9 +20,9 @@ while status:
 
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_q:
+            if event.key == pygame.K_q:  # quit the game
                 status = 0
-        if event.type == pygame.QUIT:
+        if event.type == pygame.QUIT:  # quit the game
             status = 0
 
     screen.fill(SCREEN_COLOR)
