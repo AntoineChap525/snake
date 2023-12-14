@@ -53,6 +53,7 @@ class Snake:
     def __init__(self):
         self.position = [(10, 5), (10, 6), (10, 7)]
         self.queue = self.position[0]
+        self.tete = self.position[len(position)]
 
     def update(self, direction):
         self.queue = self.position[0]
@@ -115,7 +116,7 @@ def main():
             if event.type == pygame.QUIT:  # quit the game
                 running = False
 
-            if game.snake.queue[0] > 20 or game.snake.queue[1] > 15:
+            if game.snake.tete[0] > 20 or game.snake.tete[1] > 15:
                 running = False
 
         game.update(direction)
