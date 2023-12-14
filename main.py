@@ -115,6 +115,9 @@ def main():
             if event.type == pygame.QUIT:  # quit the game
                 running = False
 
+            if game.snake.queue[0] > 20 or game.snake.queue[1] > 15:
+                running = False
+
         game.update(direction)
         game.display()
         pygame.display.update()
