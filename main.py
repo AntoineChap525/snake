@@ -13,8 +13,6 @@ SNAKE_COLOR = (0, 255, 0)
 
 FRUIT_COLOR = (255, 0, 0)
 
-direction = (0, 1)
-
 
 class Game:
     def __init__(self, screen):
@@ -40,8 +38,8 @@ class Game:
             self.snake.position.insert(0, self.snake.queue)
             self.score += 1
 
-    def update(self):
-        self.snake.update()
+    def update(self, direction):
+        self.snake.update(direction)
         self.check_fruit_collision()
         pygame.display.set_caption("Snake" + f"Score: {self.score}")
 
@@ -56,7 +54,7 @@ class Snake:
         self.position = [(10, 5), (10, 6), (10, 7)]
         self.queue = self.position[0]
 
-    def update(self):
+    def update(self, direction):
         self.queue = self.position[0]
         self.position.append(
             (
@@ -90,6 +88,7 @@ def main():
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
+    direction = (0, 1)
 
     game = Game(screen)
     running = True
@@ -116,7 +115,7 @@ def main():
             if event.type == pygame.QUIT:  # quit the game
                 running = False
 
-        game.update()
+        game.update(direction)
         game.display()
         pygame.display.update()
 
