@@ -86,7 +86,7 @@ class Fruit:
 game = Game()
 
 
-status = 1  # 1 when running, 0 to stop
+status = True  # 1 when running, 0 to stop
 direction = (0, 1)
 
 pygame.init()
@@ -102,7 +102,7 @@ while status:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:  # quit the game
-                status = 0
+                status = False
 
             # DIRECTION
             if event.key == pygame.K_UP:
@@ -115,7 +115,7 @@ while status:
                 direction = (0, 1)
 
         if event.type == pygame.QUIT:  # quit the game
-            status = 0
+            status = False
 
     game.update()
     game.display()
