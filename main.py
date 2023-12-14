@@ -103,13 +103,13 @@ def main():
                     running = False
 
                 # DIRECTION
-                if event.key == pygame.K_UP:
+                if event.key == pygame.K_UP and direction != (1, 0):
                     direction = (-1, 0)
-                if event.key == pygame.K_DOWN:
+                if event.key == pygame.K_DOWN and direction != (-1, 0):
                     direction = (1, 0)
-                if event.key == pygame.K_LEFT:
+                if event.key == pygame.K_LEFT and direction != (0, 1):
                     direction = (0, -1)
-                if event.key == pygame.K_RIGHT:
+                if event.key == pygame.K_RIGHT and direction != (0, -1):
                     direction = (0, 1)
 
             if event.type == pygame.QUIT:  # quit the game
