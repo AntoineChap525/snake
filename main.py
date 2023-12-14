@@ -1,6 +1,18 @@
 import pygame
 import random
 
+SCREEN_COLOR = (255, 255, 255)
+SCREEN_WIDTH = 400
+SCREEN_HEIGHT = 300
+CLOCK_FREQUENCY = 5
+
+TILES_SIZE = 20
+TILES_COLOR = (0, 0, 0)
+
+SNAKE_COLOR = (0, 255, 0)
+
+FRUIT_COLOR = (255, 0, 0)
+
 
 class Game:
     def __init__(self):
@@ -72,18 +84,6 @@ class Fruit:
 
 
 def main():
-    SCREEN_COLOR = (255, 255, 255)
-    SCREEN_WIDTH = 400
-    SCREEN_HEIGHT = 300
-    CLOCK_FREQUENCY = 5
-
-    TILES_SIZE = 20
-    TILES_COLOR = (0, 0, 0)
-
-    SNAKE_COLOR = (0, 255, 0)
-
-    FRUIT_COLOR = (255, 0, 0)
-
     game = Game()
     running = True
     direction = (0, 1)
