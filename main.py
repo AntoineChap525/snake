@@ -18,6 +18,7 @@ class Game:
     def __init__(self):
         self.snake = Snake()
         self.fruit = Fruit()
+        self.score = 0
 
     def display_checkerboard(self):
         screen.fill(SCREEN_COLOR)
@@ -34,10 +35,12 @@ class Game:
         if self.fruit.position == self.snake.position[-1]:
             self.fruit = Fruit()
             self.snake.position.insert(0, self.snake.queue)
+            self.score+=1
 
     def update(self):
         self.snake.update()
         self.check_fruit_collision()
+        pygame.display.set_caption("Snake" + f"Score: {game.score}")
 
     def display(self):
         self.display_checkerboard()
@@ -92,11 +95,10 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 
 clock = pygame.time.Clock()
 
-pygame.display.set_caption("Snake")
+pygame.display.set_caption("Snake" + f"Score: {game.score}")
 
 while status:
     clock.tick(CLOCK_FREQUENCY)
-
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_q:  # quit the game
