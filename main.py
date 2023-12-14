@@ -35,7 +35,7 @@ class Game:
         if self.fruit.position == self.snake.position[-1]:
             self.fruit = Fruit()
             self.snake.position.insert(0, self.snake.queue)
-            self.score+=1
+            self.score += 1
 
     def update(self):
         self.snake.update()
@@ -83,42 +83,41 @@ class Fruit:
         pygame.draw.rect(screen, FRUIT_COLOR, rect)
 
 
-game = Game()
+def main():
+    game = Game()
+    running = True
+    direction = (0, 1)
 
+    pygame.init()
+    screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+    clock = pygame.time.Clock()
+    pygame.display.set_caption("Snake" + f"Score: {game.score}")
 
-running = True
-direction = (0, 1)
+    while running:
+        clock.tick(CLOCK_FREQUENCY)
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:  # quit the game
+                    running = False
 
-pygame.init()
+                # DIRECTION
+                if event.key == pygame.K_UP:
+                    direction = (-1, 0)
+                if event.key == pygame.K_DOWN:
+                    direction = (1, 0)
+                if event.key == pygame.K_LEFT:
+                    direction = (0, -1)
+                if event.key == pygame.K_RIGHT:
+                    direction = (0, 1)
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
-clock = pygame.time.Clock()
-
-pygame.display.set_caption("Snake" + f"Score: {game.score}")
-
-while running:
-    clock.tick(CLOCK_FREQUENCY)
-    for event in pygame.event.get():
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_q:  # quit the game
+            if event.type == pygame.QUIT:  # quit the game
                 running = False
 
-            # DIRECTION
-            if event.key == pygame.K_UP:
-                direction = (-1, 0)
-            if event.key == pygame.K_DOWN:
-                direction = (1, 0)
-            if event.key == pygame.K_LEFT:
-                direction = (0, -1)
-            if event.key == pygame.K_RIGHT:
-                direction = (0, 1)
+        game.update()
+        game.display()
+        pygame.display.update()
 
-        if event.type == pygame.QUIT:  # quit the game
-            running = False
+    print(f"{running=}")
 
-    game.update()
-    game.display()
-    pygame.display.update()
 
-print(f"{running=}")
+main()
