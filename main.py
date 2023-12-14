@@ -13,15 +13,18 @@ SNAKE_COLOR = (0, 255, 0)
 
 FRUIT_COLOR = (255, 0, 0)
 
+direction = (0, 1)
+
 
 class Game:
-    def __init__(self):
+    def __init__(self, screen):
         self.snake = Snake()
         self.fruit = Fruit()
         self.score = 0
+        self.screen = screen
 
     def display_checkerboard(self):
-        screen.fill(SCREEN_COLOR)
+        self.screen.fill(SCREEN_COLOR)
         k, l = int(SCREEN_HEIGHT / TILES_SIZE), int(SCREEN_WIDTH / TILES_SIZE)
         for i in range(k):
             for j in range(l):
@@ -29,7 +32,7 @@ class Game:
                     rect = pygame.Rect(
                         j * TILES_SIZE, i * TILES_SIZE, TILES_SIZE, TILES_SIZE
                     )
-                    pygame.draw.rect(screen, TILES_COLOR, rect)
+                    pygame.draw.rect(self.screen, TILES_COLOR, rect)
 
     def check_fruit_collision(self):
         if self.fruit.position == self.snake.position[-1]:
@@ -40,12 +43,12 @@ class Game:
     def update(self):
         self.snake.update()
         self.check_fruit_collision()
-        pygame.display.set_caption("Snake" + f"Score: {game.score}")
+        pygame.display.set_caption("Snake" + f"Score: {self.score}")
 
     def display(self):
         self.display_checkerboard()
-        self.fruit.display()
-        self.snake.display()
+        self.fruit.display(self.screen)
+        self.snake.display(self.screen)
 
 
 class Snake:
@@ -63,7 +66,7 @@ class Snake:
         )
         self.position.pop(0)
 
-    def display(self):
+    def display(self, screen):
         for i, j in self.position:
             x, y = i * TILES_SIZE, j * TILES_SIZE
             rect = pygame.Rect(y, x, TILES_SIZE, TILES_SIZE)
@@ -76,7 +79,7 @@ class Fruit:
         j = random.randint(0, int(SCREEN_WIDTH / TILES_SIZE) - 1)
         self.position = (i, j)
 
-    def display(self):
+    def display(self, screen):
         i, j = self.position
         x, y = i * TILES_SIZE, j * TILES_SIZE
         rect = pygame.Rect(y, x, TILES_SIZE, TILES_SIZE)
@@ -84,13 +87,13 @@ class Fruit:
 
 
 def main():
-    game = Game()
-    running = True
-    direction = (0, 1)
-
     pygame.init()
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     clock = pygame.time.Clock()
+
+    game = Game(screen)
+    running = True
+
     pygame.display.set_caption("Snake" + f"Score: {game.score}")
 
     while running:
